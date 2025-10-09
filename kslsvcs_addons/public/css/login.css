@@ -1,0 +1,46 @@
+/* Login page background customization */
+.for-login {
+    background-image: url('/assets/kslsvcs_addons/airport.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Add overlay for better text readability */
+.for-login::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4); /* Dark overlay with 40% opacity */
+    z-index: 0;
+}
+
+/* Ensure login form is above overlay */
+.for-login .page-card {
+    position: relative;
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Ensure logo section is also above overlay */
+.for-login .page-card-head {
+    position: relative;
+    z-index: 1;
+}
+
+/* Style the sign-up message */
+.for-login .sign-up-message {
+    position: relative;
+    z-index: 1;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
