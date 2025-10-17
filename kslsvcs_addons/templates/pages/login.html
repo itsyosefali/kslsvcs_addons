@@ -14,87 +14,103 @@
     <div class="shape"></div>
 </div>
 
-<div class="login-container">
-    <div class="logo-section">
-        <div class="logo">
-            <img src="/assets/kslsvcs_addons/IMG-7137.jpg" alt="Logo"
-                style="width: 100%; height: 100%; object-fit: contain;">
+<div class="login-wrapper">
+    <div class="login-card">
+        <div class="login-container">
+            <div class="logo-section">
+                <div class="logo">
+                    <img src="/assets/kslsvcs_addons/IMG-7137.jpg" alt="KSL Services logo"
+                        style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <h1 class="system-name">KSL Airport Services</h1>
+                <p class="system-tagline">Operate smarter with kslsvcs ERP</p>
+            </div>
+
+            <div class="error-message" id="errorMessage" style="display:none;">
+                Invalid credentials. Please try again.
+            </div>
+            <div class="error-message" id="login-error-message" style="display:none;"></div>
+            <div class="error-message" id="reset-message" style="display:none;"></div>
+
+            <!-- Sign In Form -->
+            <div id="signin-form">
+                <form id="login-form">
+                    <input type="hidden" name="cmd" value="login">
+                    <input type="hidden" name="redirect-to" value="/app/home">
+
+                    <div class="form-group">
+                        <label for="usr">Username or Email</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="usr" name="usr" required autocomplete="username">
+                            <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pwd">Password</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="pwd" name="pwd" required autocomplete="current-password">
+                            <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                                </path>
+                            </svg>
+                            <span id="toggle-password" class="toggle-password"></span>
+                        </div>
+                        <div class="forgot-password">
+                            <a href="#" id="show-forgot-password">Forgot Password?</a>
+                        </div>
+                    </div>
+                    <button type="submit" class="login-btn">
+                        Sign In to kslsvcs ERP
+                    </button>
+                </form>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <div id="forgot-password-form" style="display: none;">
+                <div class="logo-section" style="margin-bottom: 2rem;">
+                    <h1 class="system-name" style="font-size: 1.5rem; margin: 0;">Forgot Password</h1>
+                    <p class="system-tagline">Enter your email to reset your password</p>
+                </div>
+
+                <form id="reset-password-form">
+                    <input type="hidden" name="cmd" value="frappe.core.doctype.user.user.reset_password">
+
+                    <div class="form-group">
+                        <label for="reset_email">Email</label>
+                        <div class="input-wrapper">
+                            <input type="email" id="reset_email" name="user" placeholder="" required>
+                            <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="login-btn">Send Reset Link</button>
+                    <div class="forgot-password" style="margin-top: 1rem;">
+                        <a href="#" id="back-to-login">Back to Login</a>
+                    </div>
+                </form>
+            </div>
         </div>
-        <h1 class="system-name">kslsvcs ERP</h1>
-        <p class="system-tagline">Kauri Systems llc</p>
-    </div>
-
-    <div class="error-message" id="errorMessage" style="display:none;">
-        Invalid credentials. Please try again.
-    </div>
-    <div class="error-message" id="login-error-message" style="display:none;"></div>
-    <div class="error-message" id="reset-message" style="display:none;"></div>
-
-    <!-- Sign In Form -->
-    <div id="signin-form">
-        <form id="login-form">
-            <input type="hidden" name="cmd" value="login">
-            <input type="hidden" name="redirect-to" value="/app/home">
-
-            <div class="form-group">
-                <label for="usr">Username or Email</label>
-                <div class="input-wrapper">
-                    <input type="text" id="usr" name="usr" required autocomplete="username">
-                    <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                    </svg>
-                </div>
+        <div class="visual-panel">
+            <div class="visual-overlay"></div>
+            <div class="visual-content">
+                <h2>Designed for Airport Excellence</h2>
+                <p>Monitor ground services, streamline crew coordination, and keep every flight on schedule with confidence.</p>
+                <ul class="highlight-list">
+                    <li>Real-time turnaround visibility</li>
+                    <li>Integrated flight operations</li>
+                    <li>Smart alerts for every runway</li>
+                </ul>
             </div>
-
-            <div class="form-group">
-                <label for="pwd">Password</label>
-                <div class="input-wrapper">
-                    <input type="password" id="pwd" name="pwd" required autocomplete="current-password">
-                    <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
-                        </path>
-                    </svg>
-                    <span id="toggle-password" class="toggle-password"></span>
-                </div>
-                <div class="forgot-password">
-                    <a href="#" id="show-forgot-password">Forgot Password?</a>
-                </div>
-            </div>
-            <button type="submit" class="login-btn">
-                Sign In to kslsvcs ERP
-            </button>
-        </form>
-    </div>
-
-    <!-- Forgot Password Form -->
-    <div id="forgot-password-form" style="display: none;">
-        <div class="logo-section" style="margin-bottom: 2rem;">
-            <h1 class="system-name" style="font-size: 1.5rem; margin: 0;">Forgot Password</h1>
-            <p class="system-tagline">Enter your email to reset your password</p>
         </div>
-
-        <form id="reset-password-form">
-            <input type="hidden" name="cmd" value="frappe.core.doctype.user.user.reset_password">
-
-            <div class="form-group">
-                <label for="reset_email">Email</label>
-                <div class="input-wrapper">
-                    <input type="email" id="reset_email" name="user" placeholder="" required>
-                    <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                        </path>
-                    </svg>
-                </div>
-            </div>
-
-            <button type="submit" class="login-btn">Send Reset Link</button>
-            <div class="forgot-password" style="margin-top: 1rem;">
-                <a href="#" id="back-to-login">Back to Login</a>
-            </div>
-        </form>
     </div>
 </div>
 {% endblock %}
@@ -123,6 +139,7 @@
         justify-content: center;
         position: relative;
         overflow: hidden;
+        padding: 2rem;
     }
 
     /* Dark overlay for better text readability */
@@ -133,7 +150,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.4);
+        background: rgba(8, 47, 73, 0.55);
         z-index: 0;
     }
 
@@ -193,19 +210,31 @@
         }
     }
 
-    .login-container {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        border-radius: 20px;
-        padding: 3rem;
-        width: 100%;
-        max-width: 420px;
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+    .login-wrapper {
         position: relative;
         z-index: 1;
-        transform: translateY(0);
+        width: min(1040px, 100%);
+        padding: 1rem;
+    }
+
+    .login-card {
+        display: grid;
+        grid-template-columns: minmax(320px, 420px) minmax(280px, 1fr);
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(18px);
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 30px 82px rgba(15, 23, 42, 0.35);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        min-height: 560px;
+    }
+
+    .login-container {
+        padding: 3rem;
         animation: slideUp 0.8s ease-out;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     @keyframes slideUp {
@@ -220,7 +249,7 @@
     }
 
     .logo {
-        height: 80px;
+        height: 72px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -235,22 +264,22 @@
     }
 
     .logo-section {
-        text-align: center;
+        text-align: left;
     }
 
     .system-name {
-        font-size: 1.75rem;
+        font-size: 2rem;
         font-weight: 700;
-        color: #2d3748;
-        margin-bottom: 0.5rem;
-        letter-spacing: -0.5px;
+        color: #0f172a;
+        margin-bottom: 0.25rem;
+        letter-spacing: -0.4px;
     }
 
     .system-tagline {
-        color: #718096;
-        font-size: 0.95rem;
+        color: #475569;
+        font-size: 1rem;
         font-weight: 500;
-        margin-bottom: 0.25rem;
+        margin-bottom: 1.75rem;
     }
 
     .form-group {
@@ -261,10 +290,11 @@
     .form-group label {
         display: block;
         font-weight: 600;
-        color: #4a5568;
+        color: #1e293b;
         margin-bottom: 0.5rem;
-        font-size: 0.9rem;
-        letter-spacing: 0.025em;
+        font-size: 0.85rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
     }
 
     .input-wrapper {
@@ -274,19 +304,20 @@
     .form-group input {
         width: 100%;
         padding: 1rem 1rem 1rem 3rem;
-        border: 2px solid #e2e8f0;
+        border: 2px solid rgba(148, 163, 184, 0.25);
         border-radius: 12px;
         font-size: 1rem;
         font-weight: 500;
         transition: all 0.3s ease;
-        background: white;
-        color: #2d3748;
+        background: rgba(255, 255, 255, 0.9);
+        color: #0f172a;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
     }
 
     .form-group input:focus {
         outline: none;
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        border-color: #38bdf8;
+        box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.18);
         transform: translateY(-1px);
     }
 
@@ -299,12 +330,12 @@
         height: 20px;
         opacity: 0.6;
         transition: opacity 0.3s ease;
-        color: #718096;
+        color: #0ea5e9;
     }
 
-    .form-group input:focus+.input-icon {
+    .form-group input:focus + .input-icon {
         opacity: 1;
-        color: #667eea;
+        color: #2563eb;
     }
 
     .forgot-password {
@@ -313,7 +344,7 @@
     }
 
     .forgot-password a {
-        color: #667eea;
+        color: #0ea5e9;
         text-decoration: none;
         font-size: 0.9rem;
         font-weight: 500;
@@ -321,14 +352,14 @@
     }
 
     .forgot-password a:hover {
-        color: #5a67d8;
+        color: #2563eb;
         text-decoration: underline;
     }
 
     .login-btn {
         width: 100%;
         padding: 1rem;
-        background: linear-gradient(135deg, #667eea, #764ba2);
+        background: linear-gradient(135deg, #38bdf8, #2563eb);
         border: none;
         border-radius: 12px;
         color: white;
@@ -343,7 +374,7 @@
 
     .login-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        box-shadow: 0 12px 30px rgba(37, 99, 235, 0.35);
     }
 
     .login-btn:active {
@@ -357,7 +388,7 @@
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
         transition: left 0.5s;
     }
 
@@ -366,8 +397,8 @@
     }
 
     .error-message {
-        background: #fed7d7;
-        color: #c53030;
+        background: rgba(248, 113, 113, 0.18);
+        color: #b91c1c;
         padding: 0.75rem;
         border-radius: 8px;
         margin-bottom: 1rem;
@@ -403,6 +434,74 @@
         }
     }
 
+    .visual-panel {
+        position: relative;
+        background-image: url('/assets/kslsvcs_addons/airport.jpg');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 3rem;
+        color: white;
+        overflow: hidden;
+    }
+
+    .visual-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(160deg, rgba(8, 47, 73, 0.88), rgba(30, 64, 175, 0.6));
+        mix-blend-mode: multiply;
+    }
+
+    .visual-content {
+        position: relative;
+        z-index: 1;
+        text-align: left;
+        max-width: 320px;
+    }
+
+    .visual-content h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+    }
+
+    .visual-content p {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.85);
+        margin-bottom: 1.5rem;
+    }
+
+    .highlight-list {
+        list-style: none;
+        display: grid;
+        gap: 0.75rem;
+    }
+
+    .highlight-list li {
+        position: relative;
+        padding-left: 1.75rem;
+        font-weight: 600;
+        color: rgba(248, 250, 252, 0.95);
+        letter-spacing: 0.01em;
+    }
+
+    .highlight-list li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 9999px;
+        background: #38bdf8;
+        box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.25);
+    }
+
     .toggle-password {
         position: absolute;
         right: 1rem;
@@ -422,7 +521,7 @@
 
     .toggle-password:hover {
         opacity: 1;
-        color: #667eea;
+        color: #0ea5e9;
     }
 
     .toggle-password svg {
@@ -430,14 +529,36 @@
         height: 100%;
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 900px) {
+        .login-card {
+            grid-template-columns: 1fr;
+        }
+
+        .visual-panel {
+            min-height: 240px;
+            padding: 2.5rem 2rem;
+        }
+
+        .visual-content {
+            max-width: none;
+        }
+
         .login-container {
-            margin: 1rem;
+            padding: 2.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        body {
+            padding: 1rem;
+        }
+
+        .login-container {
             padding: 2rem;
         }
 
         .system-name {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
         }
     }
 </style>
@@ -588,21 +709,21 @@
                 .then(data => {
                     if (data.message) {
                         backendResetMessage.textContent = data.message;
-                        backendResetMessage.style.color = "#2f855a";
-                        backendResetMessage.style.background = "#d4edda";
+                        backendResetMessage.style.color = "#0f766e";
+                        backendResetMessage.style.background = "rgba(45, 212, 191, 0.18)";
                         backendResetMessage.style.display = 'block';
                     } else {
                         backendResetMessage.textContent = "Failed to send reset link.";
-                        backendResetMessage.style.color = "#c53030";
-                        backendResetMessage.style.background = "#fed7d7";
+                        backendResetMessage.style.color = "#b91c1c";
+                        backendResetMessage.style.background = "rgba(248, 113, 113, 0.18)";
                         backendResetMessage.style.display = 'block';
                     }
                 })
                 .catch(error => {
                     console.error('Reset error:', error);
                     backendResetMessage.textContent = "Error: Unable to send reset link.";
-                    backendResetMessage.style.color = "#c53030";
-                    backendResetMessage.style.background = "#fed7d7";
+                    backendResetMessage.style.color = "#b91c1c";
+                    backendResetMessage.style.background = "rgba(248, 113, 113, 0.18)";
                     backendResetMessage.style.display = 'block';
                 })
                 .finally(() => {
