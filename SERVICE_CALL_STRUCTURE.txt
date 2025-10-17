@@ -1,0 +1,528 @@
+================================================================================
+                    SERVICE CALL - FILE STRUCTURE
+================================================================================
+
+This document describes all files created for the Service Call doctype and
+its related child tables.
+
+
+📁 DIRECTORY STRUCTURE
+======================
+
+kslsvcs_addons/
+├── kslsvcs_addons/
+│   └── kslsvcs_addons/
+│       └── doctype/
+│           ├── service_call/                    [Main Doctype]
+│           │   ├── __init__.py
+│           │   ├── service_call.json           [Doctype Definition]
+│           │   ├── service_call.py             [Server-side Logic]
+│           │   ├── service_call.js             [Client-side Logic]
+│           │   ├── service_call_list.js        [List View Customization]
+│           │   └── test_service_call.py        [Unit Tests]
+│           │
+│           ├── service_call_checklist/          [Child Table]
+│           │   ├── __init__.py
+│           │   ├── service_call_checklist.json
+│           │   └── service_call_checklist.py
+│           │
+│           └── service_call_material/           [Child Table]
+│               ├── __init__.py
+│               ├── service_call_material.json
+│               └── service_call_material.py
+│
+├── SERVICE_CALL_SETUP.txt                       [Comprehensive Guide]
+├── SERVICE_CALL_QUICK_START.txt                 [Quick Start Guide]
+└── SERVICE_CALL_STRUCTURE.txt                   [This File]
+
+
+📄 FILE DESCRIPTIONS
+====================
+
+SERVICE CALL (Main Doctype)
+----------------------------
+
+1. service_call.json
+   Purpose: Doctype definition and field metadata
+   Contains:
+   - All field definitions
+   - Field order and layout
+   - Permissions and roles
+   - Naming configuration
+   - Status tracking
+
+   Key Sections:
+   - Basic Details (customer, equipment, dates, status)
+   - Technician Details (primary and additional technicians)
+   - Service Checklist (child table)
+   - Materials Used (child table)
+   - Time Tracking (hours, timesheet link)
+   - Photos (before/after)
+   - Notes & Feedback
+   - Billing (invoice link)
+
+2. service_call.py
+   Purpose: Server-side business logic
+   Contains:
+   - Validation methods
+   - Calculation methods
+   - Lifecycle hooks (before_save, on_submit, etc.)
+   - API methods
+
+   Key Methods:
+   - validate(): Master validation method
+   - validate_dates(): Date range validation
+   - validate_customer_equipment(): Equipment-customer validation
+   - calculate_total_material_cost(): Sum materials
+   - update_status_based_on_completion(): Auto-status update
+   - on_submit(): Actions on submission
+   - before_cancel(): Prevent cancellation if billed
+   - make_sales_invoice(): Generate invoice (API method)
+
+3. service_call.js
+   Purpose: Client-side form behavior
+   Contains:
+   - Form event handlers
+   - Custom buttons
+   - Field calculations
+   - User interface enhancements
+
+   Key Features:
+   - Custom buttons (Complete, Create Invoice, View Equipment)
+   - Status indicators
+   - Auto-fill functionality
+   - Date validation
+   - Customer equipment filtering
+   - Material amount calculation
+   - Checklist auto-completion
+
+4. service_call_list.js
+   Purpose: List view customization
+   Contains:
+   - Status indicators (colored badges)
+   - List view buttons
+   - Custom filters
+
+   Features:
+   - Color-coded status (Open=red, In Progress=orange, etc.)
+   - "Schedule Service Call" quick button
+
+5. test_service_call.py
+   Purpose: Unit tests for the doctype
+   Structure: Standard Frappe test case template
+   Note: Tests can be added as needed
+
+
+SERVICE CALL CHECKLIST (Child Table)
+------------------------------------
+
+1. service_call_checklist.json
+   Purpose: Checklist item structure
+   Fields:
+   - task_description: What needs to be done
+   - is_completed: Checkbox
+   - completed_by: User who completed it
+   - completed_date: When it was completed
+   - notes: Additional details
+
+2. service_call_checklist.py
+   Purpose: Child table document class
+   Note: Minimal logic, most handled by parent
+
+
+SERVICE CALL MATERIAL (Child Table)
+-----------------------------------
+
+1. service_call_material.json
+   Purpose: Materials/items used structure
+   Fields:
+   - item_code: Link to Item
+   - item_name: Auto-filled from item
+   - description: Item description
+   - qty: Quantity used
+   - uom: Unit of measure
+   - rate: Price per unit
+   - amount: Calculated (qty × rate)
+
+2. service_call_material.py
+   Purpose: Child table document class
+   Note: Minimal logic, calculations in parent
+
+
+DOCUMENTATION FILES
+-------------------
+
+1. SERVICE_CALL_SETUP.txt (This file)
+   Type: Comprehensive documentation
+   Sections:
+   - Overview and purpose
+   - Structure and fields
+   - Workflow and lifecycle
+   - Automation and features
+   - Permissions
+   - Integration points
+   - Custom buttons and actions
+   - List view indicators
+   - Tips and best practices
+   - Reporting ideas
+   - Troubleshooting
+   - Installation instructions
+
+2. SERVICE_CALL_QUICK_START.txt
+   Type: Quick start guide
+   Purpose: Get users up and running quickly
+   Sections:
+   - Step-by-step first service call
+   - Common workflows
+   - Smart features
+   - Key fields explained
+   - Finding service calls
+   - Tips and tricks
+   - Troubleshooting FAQ
+
+3. SERVICE_CALL_STRUCTURE.txt (Current file)
+   Type: Technical documentation
+   Purpose: Understand file organization
+   Sections:
+   - Directory structure
+   - File descriptions
+   - Field structure
+   - Method inventory
+   - Integration points
+
+
+🔧 FIELD STRUCTURE
+==================
+
+MAIN FIELDS:
+-----------
+Basic Details:
+- naming_series (Select)
+- customer (Link to Customer)
+- customer_name (Data, read-only)
+- customer_equipment (Link to Customer Equipment)
+- equipment_location (Data, read-only)
+- service_contract (Link to Contract)
+- scheduled_date (Datetime)
+- completion_date (Datetime)
+- status (Select: Open/In Progress/Completed/Billed/Cancelled)
+
+Technician Details:
+- primary_technician (Link to User)
+- additional_technicians (Small Text)
+
+Checklist: (Table)
+- checklist_items (Service Call Checklist)
+
+Materials: (Table)
+- materials_used (Service Call Material)
+- total_material_cost (Currency, read-only)
+
+Time Tracking:
+- time_logs (Long Text)
+- total_hours (Float)
+- timesheet (Link to Timesheet)
+
+Photos:
+- photos_before (Attach Image)
+- photos_after (Attach Image)
+
+Notes & Feedback:
+- service_notes (Long Text)
+- customer_feedback (Long Text)
+
+Billing:
+- is_billable (Check, default: 1)
+- sales_invoice (Link to Sales Invoice, read-only)
+
+
+CHILD TABLE FIELDS:
+------------------
+
+Service Call Checklist:
+- task_description (Data)
+- is_completed (Check)
+- completed_by (Link to User)
+- completed_date (Datetime)
+- notes (Small Text)
+
+Service Call Material:
+- item_code (Link to Item)
+- item_name (Data, read-only)
+- description (Small Text)
+- qty (Float)
+- uom (Link to UOM)
+- rate (Currency)
+- amount (Currency, read-only)
+
+
+📋 METHOD INVENTORY
+===================
+
+PYTHON METHODS (service_call.py):
+---------------------------------
+
+Validation Methods:
+- validate()
+  └─ validate_dates()
+  └─ validate_customer_equipment()
+  └─ calculate_total_material_cost()
+  └─ update_status_based_on_completion()
+
+Lifecycle Hooks:
+- on_submit()
+- before_cancel()
+
+API Methods:
+- make_sales_invoice(source_name, target_doc=None)
+
+
+JAVASCRIPT METHODS (service_call.js):
+-------------------------------------
+
+Form Events:
+- refresh(frm)
+- customer(frm)
+- customer_equipment(frm)
+- status(frm)
+- scheduled_date(frm)
+- completion_date(frm)
+
+Child Table Events (Service Call Checklist):
+- is_completed(frm, cdt, cdn)
+
+Child Table Events (Service Call Material):
+- item_code(frm, cdt, cdn)
+- qty(frm, cdt, cdn)
+- rate(frm, cdt, cdn)
+- materials_used_remove(frm)
+
+Helper Functions:
+- calculate_material_amount(frm, cdt, cdn)
+- calculate_total_material_cost(frm)
+
+
+🔗 INTEGRATION POINTS
+=====================
+
+CUSTOMER EQUIPMENT:
+------------------
+Files Modified:
+- customer_equipment.js (added buttons)
+- customer_equipment.json (added last_service_date field)
+
+Integration:
+- "New Service Call" button
+- "View Service Calls" button
+- Auto-updates last_service_date on service completion
+
+CUSTOMER:
+--------
+Integration:
+- All service calls linked to customer
+- Customer name auto-filled
+- Filter service calls by customer
+
+CONTRACT:
+--------
+Integration:
+- Optional link to service contracts
+- Track services under contracts
+
+SALES INVOICE:
+-------------
+Integration:
+- Generate invoice from service call
+- Auto-link back to service call
+- Status updates on invoice creation
+
+ITEM:
+----
+Integration:
+- Materials table links to Item master
+- Auto-fetch item details
+- Auto-fetch standard rates
+
+TIMESHEET:
+---------
+Integration:
+- Optional link to timesheet
+- Track billable hours
+- Project time tracking
+
+
+🎯 KEY FEATURES
+===============
+
+AUTOMATION:
+----------
+✓ Auto-calculate material amounts
+✓ Auto-calculate total material cost
+✓ Auto-fill checklist completion details
+✓ Auto-update equipment last service date
+✓ Auto-set completion date when status changes
+✓ Auto-link to sales invoice when created
+
+VALIDATIONS:
+-----------
+✓ Completion date validation
+✓ Customer-equipment relationship validation
+✓ Prevent cancellation if billed
+
+SMART FILTERING:
+---------------
+✓ Filter equipment by customer
+✓ Filter service calls by status
+✓ Filter service calls by customer
+✓ Filter service calls by equipment
+
+USER INTERFACE:
+--------------
+✓ Color-coded status indicators
+✓ Custom action buttons
+✓ Collapsible sections
+✓ Editable grid for child tables
+✓ Image upload for photos
+
+
+📊 PERMISSIONS
+==============
+
+Roles with Full Access:
+- System Manager
+- Stock Manager
+
+Roles with Limited Access:
+- Stock User (can create and read, no delete)
+
+Permissions can be customized in:
+- service_call.json → "permissions" section
+
+
+🔄 WORKFLOW STATES
+==================
+
+Status Flow:
+Open → In Progress → Completed → Billed
+
+Allowed Transitions:
+- Open → In Progress (manual)
+- Open → Cancelled (manual)
+- In Progress → Completed (manual or auto on completion_date)
+- Completed → Billed (auto on invoice creation)
+- Cannot cancel from Billed (must cancel invoice first)
+
+
+🎨 UI CUSTOMIZATION
+===================
+
+List View:
+- Status badges with colors
+- Standard filters (customer, status, equipment)
+- Custom "Schedule Service Call" button
+
+Form View:
+- Sections: Basic, Technician, Checklist, Materials, Time, Photos, Notes, Billing
+- Custom buttons: Complete, Create Invoice, View Equipment
+- Status indicator in title bar
+- Collapsible sections for better organization
+
+
+📝 NAMING
+=========
+
+Naming Series:
+- SVC-CALL-.YYYY.- (default, e.g., SVC-CALL-2025-0001)
+- SVC-.####. (alternative, e.g., SVC-0001)
+
+Configurable in form
+
+
+🗄️ DATABASE TABLES
+===================
+
+Tables Created:
+1. `tabService Call` (main table)
+2. `tabService Call Checklist` (child table)
+3. `tabService Call Material` (child table)
+
+Fields Added to Existing Tables:
+- `tabCustomer Equipment`.last_service_date
+
+
+🧪 TESTING
+==========
+
+Test File: test_service_call.py
+Location: doctype/service_call/
+
+To run tests:
+$ bench --site [site-name] run-tests --doctype "Service Call"
+
+Test Coverage Areas:
+- [ ] Create service call
+- [ ] Validate dates
+- [ ] Validate customer-equipment relationship
+- [ ] Calculate material costs
+- [ ] Update status
+- [ ] Generate invoice
+- [ ] Update equipment last service date
+- [ ] Prevent cancellation if billed
+
+
+📦 DEPLOYMENT
+=============
+
+Installation:
+1. Files are in: apps/kslsvcs_addons/
+2. Run: bench --site [site-name] migrate
+3. Run: bench --site [site-name] clear-cache
+4. Refresh browser
+
+Verification:
+1. Search for "Service Call" in awesome bar
+2. Create a test service call
+3. Test all features
+
+
+🔮 FUTURE ENHANCEMENTS
+======================
+
+Potential Additions:
+- [ ] Service call templates
+- [ ] Recurring service schedules
+- [ ] Mobile app integration
+- [ ] GPS tracking
+- [ ] Digital signatures
+- [ ] Email/SMS notifications
+- [ ] Service call analytics dashboard
+- [ ] Customer portal
+- [ ] Parts inventory integration
+- [ ] Automated invoicing
+- [ ] Service level agreement (SLA) tracking
+
+
+📞 SUPPORT
+==========
+
+For questions or issues:
+1. Check documentation files
+2. Review code comments
+3. ERPNext community forums
+4. Contact: itsyosefali
+
+
+================================================================================
+                            FILE STRUCTURE COMPLETE
+================================================================================
+
+All files have been created and installed successfully.
+The Service Call doctype is ready for use!
+
+Next Steps:
+1. Review documentation
+2. Create test service calls
+3. Customize as needed
+4. Train users
+5. Start tracking service work!
+

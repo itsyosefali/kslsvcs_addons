@@ -1,0 +1,306 @@
+================================================================================
+CUSTOMER EQUIPMENT DOCTYPE - SETUP AND FEATURES
+================================================================================
+
+Created for: kslsvcs_addons
+Date: October 15, 2025
+Purpose: Track passenger boarding bridges (PBB) and related assets at customer sites
+
+================================================================================
+INSTALLATION STEPS
+================================================================================
+
+1. Ensure bench services are running:
+   $ bench start
+   
+   (Or in production, ensure redis and other services are active)
+
+2. Run database migration:
+   $ bench --site [your-site-name] migrate
+   
+3. Clear cache:
+   $ bench --site [your-site-name] clear-cache
+   
+4. Restart bench:
+   $ bench restart
+
+5. Login to your ERPNext site and navigate to:
+   Home > Kslsvcs Addons > Customer Equipment
+
+================================================================================
+FEATURES IMPLEMENTED
+================================================================================
+
+1. CUSTOMER EQUIPMENT DOCTYPE
+   Location: kslsvcs_addons/doctype/customer_equipment/
+   
+   Main Fields:
+   - Equipment Name (Data, Required, Unique)
+   - Customer (Link to Customer, Required)
+   - Location (Data) - Terminal, gate, or site information
+   - Model Number (Data)
+   - Serial Number (Data, Unique)
+   - Status (Select: Active/In Service/Out of Service/Retired)
+   - Installation Date (Date)
+   - Warranty Expiry (Date)
+   - Linked Project (Link to Project)
+   - Linked Contract (Link to Contract)
+   - Notes (Long Text)
+   - Attachments (Attach)
+
+   Validations:
+   - Warranty expiry date must be after installation date
+   - Serial number must be unique
+   - Equipment name is auto-naming field
+
+2. CUSTOM FIELDS INTEGRATION
+   Location: kslsvcs_addons/fixtures/custom_fields.py
+   
+   Automatically adds "Equipment" field to:
+   - Issue (for service work order tracking)
+   - Sales Order (for project-based fabrication/installation)
+   - Project (for equipment linkage)
+   - Sales Invoice (for tracking)
+   - Delivery Note (for installation tracking)
+   
+   These fields are auto-created when the app is installed.
+
+3. REPORTS
+   
+   a) Equipment by Customer Report
+      Location: kslsvcs_addons/report/equipment_by_customer/
+      - Shows all equipment grouped by customer
+      - Filters: Customer, Status
+      - Displays: Equipment name, location, model, serial, dates
+   
+   b) Warranty Expiry Report
+      Location: kslsvcs_addons/report/warranty_expiry_report/
+      - Shows equipment with warranties expiring soon
+      - Default: Next 90 days
+      - Includes chart visualization
+      - Filters: Customer, Days Ahead
+      - Shows days remaining for each equipment
+   
+   c) Equipment Maintenance History Report
+      Location: kslsvcs_addons/report/equipment_maintenance_history/
+      - Shows all issues/work orders linked to each equipment
+      - Filters: Equipment, Customer
+      - Displays complete service history
+
+4. AUTOMATED NOTIFICATIONS
+   Location: hooks.py (scheduler_events)
+   
+   - Daily scheduled task runs to check warranty expiry
+   - Sends notifications for warranties expiring within 30 days
+   - Notifications sent to equipment owners
+   - Only for Active/In Service equipment
+
+5. DASHBOARD & CLIENT-SIDE FEATURES
+   Location: customer_equipment.js
+   
+   Features:
+   - Visual warranty status indicators (Red/Orange/Green)
+   - Quick action buttons:
+     * View Maintenance History (opens report)
+     * Create Issue (creates new issue linked to equipment)
+     * Create Sales Order (creates SO linked to equipment)
+   - Real-time validation of dates
+   - Customer auto-fetch functionality
+
+6. PYTHON API METHODS
+   Location: customer_equipment.py
+   
+   Available whitelisted methods:
+   - get_equipment_maintenance_history(equipment)
+     Returns all maintenance records for specific equipment
+   
+   - get_warranty_expiring_soon(days=30)
+     Returns list of equipment with warranties expiring in X days
+
+================================================================================
+USAGE EXAMPLES
+================================================================================
+
+1. CREATING EQUIPMENT RECORD
+   - Go to: Customer Equipment > New
+   - Fill in equipment details
+   - Link to customer (required)
+   - Add installation date and warranty expiry
+   - Set status to Active
+   - Save
+
+2. TRACKING SERVICE HISTORY
+   - Open equipment record
+   - Click "View Maintenance History" button
+   - Or create new issue with "Create Issue" button
+   - Issue will automatically link to equipment
+
+3. PROJECT/CONTRACT LINKAGE
+   - When creating Sales Order or Project
+   - Select customer
+   - Select equipment from dropdown
+   - Equipment will be linked for tracking
+
+4. WARRANTY MONITORING
+   - Open "Warranty Expiry Report"
+   - Set filter for days ahead (default 90)
+   - View chart showing monthly expiry distribution
+   - Take action on equipment expiring soon
+
+5. AUTOMATED ALERTS
+   - System automatically checks warranties daily
+   - Notifications appear in notification panel
+   - Shows equipment expiring within 30 days
+   - No manual action required
+
+================================================================================
+DATABASE STRUCTURE
+================================================================================
+
+Table Name: tabCustomer Equipment
+
+Key Indexes:
+- name (Primary Key) - Auto-generated from equipment_name
+- customer (Indexed for queries)
+- serial_number (Unique Index)
+- status (Indexed for filtering)
+- warranty_expiry (Indexed for date-based queries)
+
+Permissions:
+- System Manager: Full access (Create, Read, Update, Delete)
+- Stock Manager: Full access
+- Stock User: Read-only access
+
+================================================================================
+INTEGRATION POINTS
+================================================================================
+
+1. CUSTOMER MASTER
+   - Equipment linked via customer field
+   - Can view all equipment for a customer
+
+2. ISSUE/WORK ORDERS
+   - Custom field "equipment" added
+   - Track service history per equipment
+   - Reports show maintenance patterns
+
+3. SALES ORDER
+   - Custom field "equipment" added
+   - Link equipment for installations
+   - Track equipment-related sales
+
+4. PROJECT
+   - Custom field "equipment" added
+   - Project-based equipment management
+   - Contract linkage support
+
+5. CONTRACT
+   - Bidirectional link via linked_contract field
+   - Maintenance contract tracking
+
+================================================================================
+OPTIONAL ENHANCEMENTS (FUTURE)
+================================================================================
+
+1. Auto-create Customer Equipment from:
+   - Sales Invoice (when item flagged as "Track as Equipment")
+   - Delivery Note (on equipment delivery)
+
+2. Dashboard Widgets:
+   - Number of active equipment per customer
+   - Upcoming warranty expiries chart
+   - Service history count per equipment
+   - Status distribution pie chart
+
+3. QR Code Integration:
+   - Generate QR code for each equipment
+   - Quick access via mobile scan
+   - Field service integration
+
+4. Preventive Maintenance:
+   - Schedule routine maintenance
+   - Auto-create maintenance tasks
+   - Maintenance calendar view
+
+5. Equipment Images:
+   - Multiple image attachments
+   - Image gallery view
+   - Photo documentation
+
+================================================================================
+FILE STRUCTURE
+================================================================================
+
+kslsvcs_addons/
+├── kslsvcs_addons/
+│   ├── kslsvcs_addons/
+│   │   ├── doctype/
+│   │   │   └── customer_equipment/
+│   │   │       ├── __init__.py
+│   │   │       ├── customer_equipment.json           (DocType definition)
+│   │   │       ├── customer_equipment.py             (Server-side logic)
+│   │   │       ├── customer_equipment.js             (Client-side logic)
+│   │   │       ├── customer_equipment_dashboard.py   (Dashboard config)
+│   │   │       └── test_customer_equipment.py        (Tests)
+│   │   ├── report/
+│   │   │   ├── __init__.py
+│   │   │   ├── equipment_by_customer/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── equipment_by_customer.json
+│   │   │   │   └── equipment_by_customer.py
+│   │   │   ├── warranty_expiry_report/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── warranty_expiry_report.json
+│   │   │   │   └── warranty_expiry_report.py
+│   │   │   └── equipment_maintenance_history/
+│   │   │       ├── __init__.py
+│   │   │       ├── equipment_maintenance_history.json
+│   │   │       └── equipment_maintenance_history.py
+│   │   └── fixtures/
+│   │       ├── __init__.py
+│   │       └── custom_fields.py                      (Integration fields)
+│   └── hooks.py                                      (Updated with hooks)
+└── CUSTOMER_EQUIPMENT_SETUP.txt                      (This file)
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+1. Doctype not appearing after migration:
+   - Clear cache: bench --site [site] clear-cache
+   - Reload: Ctrl+Shift+R in browser
+   - Check module permissions
+
+2. Custom fields not appearing:
+   - Run: bench --site [site] console
+   - Execute: 
+     from kslsvcs_addons.fixtures.custom_fields import create_equipment_custom_fields
+     create_equipment_custom_fields()
+
+3. Reports not showing data:
+   - Ensure equipment records exist
+   - Check field mappings in reports
+   - Verify user permissions
+
+4. Notifications not sending:
+   - Check scheduler is running: bench --site [site] doctor
+   - Enable scheduler: bench --site [site] enable-scheduler
+   - Check notification logs
+
+================================================================================
+SUPPORT & MAINTENANCE
+================================================================================
+
+Developer: itsyosefali
+App: kslsvcs_addons
+Version: ERPNext v15
+License: MIT
+
+For issues or enhancements:
+1. Check the doctype and report files
+2. Review hooks.py for scheduler configuration
+3. Test custom fields in Issue, Sales Order, Project doctypes
+4. Verify permissions for relevant roles
+
+================================================================================
+

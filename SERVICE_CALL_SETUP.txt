@@ -1,0 +1,367 @@
+================================================================================
+                    SERVICE CALL DOCTYPE - SETUP GUIDE
+================================================================================
+
+OVERVIEW
+========
+The Service Call doctype is the main operational doctype for tracking maintenance
+visits and tasks performed under service contracts. It connects customers, equipment,
+contracts, and billing in a comprehensive service management system.
+
+
+PURPOSE
+=======
+Each Service Call record represents:
+- A scheduled maintenance visit
+- An on-demand service request
+- A repair job
+- Any maintenance task performed under a contract
+
+The Service Call tracks:
+✓ Who the service is for (Customer & Equipment)
+✓ When it's scheduled and completed
+✓ Who performs the work (Technicians)
+✓ What tasks are completed (Checklist)
+✓ What materials are used (Materials table)
+✓ Time spent on the job
+✓ Before/after photos
+✓ Customer feedback
+✓ Billing status
+
+
+STRUCTURE
+=========
+
+1. MAIN FIELDS
+--------------
+- Naming Series: Auto-generated ID (SVC-CALL-.YYYY.- or SVC-.####.)
+- Customer: Link to Customer (required)
+- Customer Equipment: Link to Customer Equipment (required, filtered by customer)
+- Service Contract: Link to Contract (optional)
+- Scheduled Date: When the service is planned (required)
+- Completion Date: When the service was completed
+- Status: Open / In Progress / Completed / Billed / Cancelled
+- Primary Technician: Main technician assigned (required)
+- Additional Technicians: Other team members (text field)
+
+
+2. SERVICE CHECKLIST (Child Table)
+-----------------------------------
+Track tasks to be completed during service:
+- Task Description: What needs to be done
+- Completed: Checkbox
+- Completed By: Auto-filled when checked
+- Completed Date: Auto-filled when checked
+- Notes: Additional details
+
+Example tasks:
+- Replace filters
+- Check fluid levels
+- Test system settings
+- Inspect components
+- Calibrate sensors
+
+
+3. MATERIALS USED (Child Table)
+--------------------------------
+Track items/parts used during service:
+- Item Code: Link to Item master
+- Item Name: Auto-filled
+- Description: Item description
+- Quantity: Amount used
+- UOM: Unit of measure
+- Rate: Price per unit
+- Amount: Calculated (Qty × Rate)
+
+Total Material Cost: Auto-calculated sum
+
+
+4. TIME TRACKING
+----------------
+- Time Logs: Text field for manual time entries
+- Total Hours: Numeric field for hours spent
+- Timesheet: Link to Frappe Timesheet (if using project timesheet feature)
+
+
+5. PHOTOS
+---------
+- Photos Before: Image attachment
+- Photos After: Image attachment
+
+Great for documenting work completed and equipment condition.
+
+
+6. NOTES & FEEDBACK
+-------------------
+- Service Notes: Internal notes about the work performed
+- Customer Feedback: Comments from the customer
+
+
+7. BILLING
+----------
+- Is Billable: Checkbox (default: checked)
+- Sales Invoice: Link to generated invoice (read-only)
+
+
+WORKFLOW
+========
+
+TYPICAL SERVICE CALL LIFECYCLE:
+--------------------------------
+
+1. CREATE SERVICE CALL
+   Status: Open
+   - Schedule maintenance visit
+   - Assign customer and equipment
+   - Set scheduled date
+   - Assign primary technician
+   - Add checklist items
+
+2. START SERVICE
+   Status: In Progress (manual update)
+   - Technician arrives on site
+   - Takes "before" photos
+   - Begins working through checklist
+
+3. PERFORM SERVICE
+   Status: In Progress
+   - Check off checklist items
+   - Add materials used
+   - Log time spent
+   - Add service notes
+
+4. COMPLETE SERVICE
+   Status: Completed
+   - Take "after" photos
+   - Get customer feedback
+   - Set completion date (auto-filled)
+   - Review and save
+
+5. GENERATE INVOICE
+   Status: Billed
+   - Click "Create Sales Invoice" button
+   - Invoice includes materials and service charges
+   - Status auto-updates to "Billed"
+
+
+AUTOMATION & FEATURES
+=====================
+
+1. AUTO-CALCULATIONS
+--------------------
+✓ Material amounts (Qty × Rate)
+✓ Total material cost
+✓ Completion date when status changes to Completed
+
+2. AUTO-FILL FIELDS
+-------------------
+✓ Customer name (from Customer)
+✓ Equipment location (from Customer Equipment)
+✓ Item details (from Item master)
+✓ Checklist completed by/date (when checkbox clicked)
+✓ Current user as primary technician (on new records)
+✓ Current datetime as scheduled date (on new records)
+
+3. VALIDATIONS
+--------------
+✓ Completion date cannot be before scheduled date
+✓ Equipment must belong to selected customer
+✓ Cannot cancel if already billed
+
+4. LINKED UPDATES
+-----------------
+✓ Updates "Last Service Date" on Customer Equipment on submit
+✓ Links back to Sales Invoice when billed
+
+5. SMART FILTERS
+----------------
+✓ Equipment filtered by selected customer
+✓ Only shows equipment that belongs to the customer
+
+
+PERMISSIONS
+===========
+
+Role                  Create  Read  Write  Delete  Submit
+------------------------------------------------------------
+System Manager        ✓       ✓     ✓      ✓       ✓
+Stock Manager         ✓       ✓     ✓      ✓       ✓
+Stock User            ✓       ✓     ✗      ✗       ✓
+
+
+INTEGRATION POINTS
+==================
+
+1. CUSTOMER EQUIPMENT
+   - Equipment form has "New Service Call" button
+   - Equipment form has "View Service Calls" button
+   - Service calls update last service date on equipment
+
+2. CUSTOMER
+   - All service calls linked to customer
+   - Can view service history per customer
+
+3. CONTRACT
+   - Optional link to service contracts
+   - Track which services are covered under contract
+
+4. SALES INVOICE
+   - Generate invoice from completed service call
+   - Invoice includes:
+     * Service call charge
+     * All materials used
+   - Status updates to "Billed" when invoice created
+
+5. TIMESHEET
+   - Optional link to project timesheet
+   - Track labor hours for billing/reporting
+
+6. ITEM MASTER
+   - Materials table links to Item master
+   - Fetches item details and rates automatically
+
+
+CUSTOM BUTTONS & ACTIONS
+=========================
+
+SERVICE CALL FORM:
+------------------
+1. "Mark as Completed" - Quick complete action
+2. "Create Sales Invoice" - Generate invoice (when completed)
+3. "View Equipment" - Jump to equipment record
+
+CUSTOMER EQUIPMENT FORM:
+-------------------------
+1. "New Service Call" - Create service call for this equipment
+2. "View Service Calls" - List all service calls for this equipment
+
+SERVICE CALL LIST:
+------------------
+1. "Schedule Service Call" - Quick create button
+
+
+LIST VIEW INDICATORS
+====================
+
+Status colors in list view:
+- Open: Red
+- In Progress: Orange
+- Completed: Green
+- Billed: Blue
+- Cancelled: Gray
+
+
+TIPS & BEST PRACTICES
+======================
+
+1. CHECKLISTS
+   - Create standard checklist templates for common service types
+   - Copy checklists from previous service calls
+   - Be specific with task descriptions
+
+2. MATERIALS
+   - Add materials as you use them
+   - Keep accurate quantities
+   - Review rates before invoicing
+
+3. PHOTOS
+   - Always take before/after photos
+   - Photos are great for customer disputes
+   - Document any issues found
+
+4. TIME TRACKING
+   - Log time accurately
+   - Include travel time if billable
+   - Link to timesheets for project tracking
+
+5. CUSTOMER FEEDBACK
+   - Get feedback immediately after service
+   - Use feedback to improve service quality
+   - Address concerns promptly
+
+6. SCHEDULING
+   - Schedule in advance when possible
+   - Consider travel time between sites
+   - Group nearby service calls
+
+
+REPORTING IDEAS
+===============
+
+1. Service calls per customer
+2. Service calls per equipment
+3. Technician productivity
+4. Material usage analysis
+5. Service call revenue
+6. Average completion time
+7. Contract vs non-contract services
+8. Customer satisfaction (from feedback)
+9. Overdue service calls
+10. Service call trends over time
+
+
+FUTURE ENHANCEMENTS
+===================
+
+Potential features to add:
+- Service call templates
+- Recurring service call schedules
+- Mobile app for technicians
+- GPS tracking
+- Signature capture
+- Parts inventory integration
+- Automated invoicing
+- Customer portal
+- SMS/Email notifications
+- Service call analytics dashboard
+
+
+TROUBLESHOOTING
+================
+
+ISSUE: Cannot create service call
+SOLUTION: Ensure customer and equipment exist first
+
+ISSUE: Equipment dropdown is empty
+SOLUTION: Select customer first - equipment is filtered by customer
+
+ISSUE: Cannot create invoice
+SOLUTION: Ensure status is "Completed" and is_billable is checked
+
+ISSUE: Cannot cancel service call
+SOLUTION: If billed, cancel the sales invoice first
+
+ISSUE: Materials not showing rates
+SOLUTION: Ensure items have standard rates set in Item master
+
+
+INSTALLATION
+============
+
+The Service Call doctype is installed as part of the kslsvcs_addons app.
+
+To migrate/install:
+1. bench --site [your-site] migrate
+2. bench --site [your-site] clear-cache
+3. Refresh browser
+
+Files created:
+- service_call (main doctype)
+- service_call_checklist (child table)
+- service_call_material (child table)
+
+
+SUPPORT
+=======
+
+For issues or questions:
+1. Check this documentation
+2. Review the code in doctype folders
+3. Check ERPNext community forums
+4. Contact: itsyosefali
+
+
+================================================================================
+                            END OF DOCUMENTATION
+================================================================================
+

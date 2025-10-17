@@ -1,0 +1,351 @@
+================================================================================
+                    SERVICE CALL - QUICK START GUIDE
+================================================================================
+
+🚀 QUICK START
+==============
+
+The Service Call doctype has been successfully installed! Here's how to start
+using it immediately.
+
+
+📋 STEP 1: CREATE YOUR FIRST SERVICE CALL
+==========================================
+
+METHOD 1: From Customer Equipment
+----------------------------------
+1. Go to: Customer Equipment list
+2. Open any equipment record
+3. Click "Create" > "New Service Call"
+4. Fields are auto-filled for you!
+
+METHOD 2: Direct Creation
+-------------------------
+1. Go to: Service Call list
+2. Click "New"
+3. Fill in:
+   - Customer
+   - Customer Equipment (filtered by customer)
+   - Scheduled Date (defaults to now)
+   - Primary Technician (defaults to current user)
+
+
+🔧 STEP 2: PREPARE THE SERVICE CALL
+====================================
+
+ADD CHECKLIST ITEMS:
+-------------------
+Click on "Service Checklist" section and add tasks:
+- Replace air filters
+- Check oil levels
+- Inspect belts
+- Test system performance
+- Clean components
+
+TIP: Create standard checklists and copy them to new service calls!
+
+
+👨‍🔧 STEP 3: PERFORM THE SERVICE
+==================================
+
+AT THE JOB SITE:
+---------------
+1. Change status to "In Progress"
+2. Take "Before" photos
+3. Work through checklist:
+   - Check off each task as completed
+   - System auto-fills your name and timestamp
+   - Add notes if needed
+4. Add materials used:
+   - Select item from dropdown
+   - Enter quantity
+   - Rate is auto-filled
+   - Amount is auto-calculated
+
+
+⏱️ STEP 4: TRACK TIME
+=====================
+
+Log hours worked:
+- Enter total hours in "Total Hours" field
+- OR link to a Timesheet
+- Add details in "Time Logs" field
+
+
+📸 STEP 5: COMPLETE THE SERVICE
+================================
+
+1. Take "After" photos
+2. Add service notes (internal use)
+3. Get customer feedback
+4. Click "Mark as Completed" button
+   - OR manually set status to "Completed"
+   - Completion date is auto-filled
+
+
+💰 STEP 6: CREATE INVOICE
+==========================
+
+If the service is billable:
+1. Click "Create" > "Create Sales Invoice"
+2. Invoice includes:
+   - Service call charge
+   - All materials used
+3. Review and submit invoice
+4. Service Call status auto-updates to "Billed"
+
+
+✨ SMART FEATURES
+==================
+
+AUTO-FILL FEATURES:
+------------------
+✓ Customer name from customer
+✓ Equipment location from equipment
+✓ Item details from item master
+✓ Checklist completion details
+✓ Material amounts (Qty × Rate)
+✓ Total material cost
+✓ Current user as technician
+✓ Current datetime as scheduled date
+
+VALIDATIONS:
+-----------
+✓ Completion date can't be before scheduled date
+✓ Equipment must belong to selected customer
+✓ Can't cancel if already billed
+
+AUTOMATIC UPDATES:
+-----------------
+✓ Updates equipment's last service date
+✓ Links to sales invoice when billed
+✓ Calculates all totals
+
+
+🎯 COMMON WORKFLOWS
+====================
+
+SCHEDULED MAINTENANCE:
+---------------------
+1. Create service call in advance
+2. Set scheduled date
+3. Assign technician
+4. Add standard checklist
+5. Technician works through it on scheduled date
+
+EMERGENCY SERVICE:
+-----------------
+1. Create service call immediately
+2. Schedule for same day
+3. Change status to "In Progress"
+4. Complete work
+5. Bill immediately
+
+CONTRACT SERVICE:
+----------------
+1. Create service call
+2. Link to service contract
+3. Follow standard workflow
+4. Track against contract
+
+
+📊 KEY FIELDS EXPLAINED
+========================
+
+STATUSES:
+--------
+- Open: Newly created, not started yet
+- In Progress: Technician is working on it
+- Completed: Work finished, ready to bill
+- Billed: Invoice created
+- Cancelled: Service call cancelled
+
+MATERIALS TABLE:
+---------------
+- Item Code: Part/item used
+- Quantity: How many used
+- Rate: Price per unit
+- Amount: Auto-calculated (Qty × Rate)
+
+CHECKLIST:
+---------
+- Task: What needs to be done
+- Completed: Check when done
+- Completed By: Auto-filled with your name
+- Completed Date: Auto-filled with timestamp
+
+
+🔍 FINDING SERVICE CALLS
+=========================
+
+BY CUSTOMER:
+-----------
+1. Go to Service Call list
+2. Click "Customer" filter
+3. Select customer
+
+BY EQUIPMENT:
+------------
+1. Open Customer Equipment
+2. Click "View Service Calls" button
+
+BY STATUS:
+---------
+1. Go to Service Call list
+2. Use status filter or click colored indicators
+
+BY DATE:
+-------
+1. Go to Service Call list
+2. Use date range filters
+3. Filter by scheduled or completion date
+
+
+💡 TIPS & TRICKS
+=================
+
+1. CREATE TEMPLATES
+   - Save standard checklists
+   - Copy to new service calls
+   - Saves time!
+
+2. TAKE PHOTOS
+   - Always take before/after photos
+   - Great for documentation
+   - Protects against disputes
+
+3. ACCURATE MATERIALS
+   - Add materials as you use them
+   - Don't wait until the end
+   - Ensures accurate billing
+
+4. TIME TRACKING
+   - Log time immediately
+   - Include travel if billable
+   - Link to timesheets for projects
+
+5. GET FEEDBACK
+   - Ask for feedback on-site
+   - Address concerns immediately
+   - Improves service quality
+
+6. USE FILTERS
+   - Filter by technician
+   - Filter by status
+   - Filter by customer
+
+
+🔗 INTEGRATIONS
+================
+
+CUSTOMER EQUIPMENT:
+------------------
+- View all service calls for equipment
+- Create service calls from equipment
+- Tracks last service date
+
+CONTRACTS:
+---------
+- Link service calls to contracts
+- Track contract services
+- Monitor contract utilization
+
+SALES INVOICE:
+-------------
+- Generate invoices from service calls
+- Include materials and labor
+- Automatic status updates
+
+TIMESHEET:
+---------
+- Link to project timesheets
+- Track billable hours
+- Project cost tracking
+
+
+📈 REPORTING IDEAS
+===================
+
+Track these metrics:
+- Service calls per customer
+- Service calls per equipment
+- Technician productivity
+- Material usage
+- Revenue per service call
+- Average completion time
+- Customer satisfaction
+- On-time completion rate
+
+
+⚠️ TROUBLESHOOTING
+===================
+
+Q: Can't see Customer Equipment dropdown?
+A: Select a Customer first - equipment is filtered by customer
+
+Q: Can't create invoice?
+A: Ensure status is "Completed" and "Is Billable" is checked
+
+Q: Can't cancel service call?
+A: If already billed, cancel the sales invoice first
+
+Q: Materials not showing rates?
+A: Set standard rates in Item master
+
+Q: Want to add photos later?
+A: No problem! Edit the service call and add photos anytime
+
+
+🎓 NEXT STEPS
+==============
+
+1. Create 2-3 test service calls
+2. Try different statuses
+3. Add checklist items
+4. Add materials
+5. Create a test invoice
+6. Explore list view filters
+7. Check out Customer Equipment integration
+
+
+📚 DOCUMENTATION
+=================
+
+For detailed information, see:
+- SERVICE_CALL_SETUP.txt (comprehensive guide)
+- Customer Equipment integration
+- Sales Invoice generation
+- Timesheet integration
+
+
+🆘 NEED HELP?
+==============
+
+1. Read SERVICE_CALL_SETUP.txt
+2. Check ERPNext documentation
+3. Visit ERPNext community forums
+4. Contact: itsyosefali
+
+
+================================================================================
+                        READY TO START! 🚀
+================================================================================
+
+Your Service Call doctype is fully installed and ready to use.
+
+Start by creating your first service call:
+1. Go to: Service Call list
+2. Click: New
+3. Fill in the basic details
+4. Save and start tracking your service work!
+
+
+NAVIGATION:
+-----------
+Search for "Service Call" in the awesome bar
+OR
+Go to: Home > [Your Module] > Service Call
+
+
+Happy Service Management! 🔧⚙️🛠️
+

@@ -83,7 +83,7 @@ home_page = "/app/home"
 # ------------
 
 # before_install = "kslsvcs_addons.install.before_install"
-# after_install = "kslsvcs_addons.install.after_install"
+after_install = "kslsvcs_addons.fixtures.custom_fields.create_equipment_custom_fields"
 
 # Uninstallation
 # ------------
@@ -148,23 +148,11 @@ home_page = "/app/home"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"kslsvcs_addons.tasks.all"
-# 	],
-# 	"daily": [
-# 		"kslsvcs_addons.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"kslsvcs_addons.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"kslsvcs_addons.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"kslsvcs_addons.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+	"daily": [
+		"kslsvcs_addons.kslsvcs_addons.doctype.customer_equipment.customer_equipment.send_warranty_expiry_notifications"
+	],
+}
 
 # Testing
 # -------

@@ -1,0 +1,189 @@
+================================================================================
+CUSTOMER EQUIPMENT - QUICK START GUIDE
+================================================================================
+
+🚀 INSTALLATION (3 steps)
+================================================================================
+
+1. Start bench services:
+   $ bench start
+
+2. Run migration (in a new terminal):
+   $ bench --site [your-site] migrate
+
+3. Clear cache:
+   $ bench --site [your-site] clear-cache
+
+Done! Customer Equipment is now available.
+
+================================================================================
+📋 WHAT'S BEEN ADDED
+================================================================================
+
+✅ 1 New DocType: Customer Equipment
+   - Track PBB and related assets
+   - 15+ fields including equipment details, warranty, and links
+   - Auto-validation of dates and serial numbers
+
+✅ 5 Custom Fields (auto-installed)
+   - Added "Equipment" field to: Issue, Sales Order, Project, Sales Invoice, Delivery Note
+   - Enables tracking across all related transactions
+
+✅ 3 Reports
+   - Equipment by Customer
+   - Warranty Expiry Report (with charts)
+   - Equipment Maintenance History
+
+✅ Automated Features
+   - Daily warranty expiry notifications
+   - Real-time warranty status indicators
+   - Quick action buttons (Create Issue, View History, etc.)
+
+================================================================================
+🎯 QUICK USAGE
+================================================================================
+
+CREATE EQUIPMENT:
+  Home > Kslsvcs Addons > Customer Equipment > New
+  → Fill equipment name, customer, location, dates
+  → Save
+
+TRACK SERVICE:
+  Open Equipment > Click "Create Issue" button
+  → Issue auto-links to equipment
+  → View history with "View Maintenance History" button
+
+VIEW REPORTS:
+  Reports > Kslsvcs Addons > 
+  → Equipment by Customer
+  → Warranty Expiry Report
+  → Equipment Maintenance History
+
+LINK TO PROJECTS:
+  Create Sales Order/Project > Select Customer > Select Equipment
+  → Auto-linked for tracking
+
+================================================================================
+📁 FILES CREATED (17 files)
+================================================================================
+
+DocType Files (7):
+├── customer_equipment.json                    [DocType definition]
+├── customer_equipment.py                      [Server logic + validations]
+├── customer_equipment.js                      [Form behavior]
+├── customer_equipment_list.js                 [List view customization]
+├── customer_equipment_dashboard.py            [Dashboard config]
+├── test_customer_equipment.py                 [Test file]
+└── __init__.py
+
+Report 1 - Equipment by Customer (3):
+├── equipment_by_customer.json
+├── equipment_by_customer.py
+└── __init__.py
+
+Report 2 - Warranty Expiry Report (3):
+├── warranty_expiry_report.json
+├── warranty_expiry_report.py
+└── __init__.py
+
+Report 3 - Equipment Maintenance History (3):
+├── equipment_maintenance_history.json
+├── equipment_maintenance_history.py
+└── __init__.py
+
+Integration Files (2):
+├── fixtures/custom_fields.py                  [Auto-add fields to other doctypes]
+└── fixtures/__init__.py
+
+Configuration:
+└── hooks.py                                   [Updated with scheduler & install hooks]
+
+Documentation (2):
+├── CUSTOMER_EQUIPMENT_SETUP.txt              [Detailed setup guide]
+└── CUSTOMER_EQUIPMENT_QUICK_START.txt        [This file]
+
+================================================================================
+🎨 KEY FEATURES HIGHLIGHT
+================================================================================
+
+1. WARRANTY MANAGEMENT
+   ✓ Visual indicators (green/orange/red)
+   ✓ Automatic expiry notifications (30-day warning)
+   ✓ Dedicated warranty expiry report with charts
+
+2. SERVICE TRACKING
+   ✓ Link equipment to Issues/Work Orders
+   ✓ Complete maintenance history report
+   ✓ One-click issue creation from equipment
+
+3. PROJECT INTEGRATION
+   ✓ Link to Sales Orders, Projects, Contracts
+   ✓ Track equipment across lifecycle
+   ✓ Installation and delivery tracking
+
+4. CUSTOMER VIEW
+   ✓ All equipment per customer in one report
+   ✓ Filter by customer, status, location
+   ✓ Export to Excel/PDF
+
+5. DATA VALIDATION
+   ✓ Unique serial numbers
+   ✓ Date validation (warranty > installation)
+   ✓ Status tracking (Active/In Service/Out of Service/Retired)
+
+================================================================================
+🔧 COMMANDS REFERENCE
+================================================================================
+
+# Install/Update
+bench --site [site] migrate
+bench --site [site] clear-cache
+
+# Manual custom field installation (if needed)
+bench --site [site] console
+>>> from kslsvcs_addons.fixtures.custom_fields import create_equipment_custom_fields
+>>> create_equipment_custom_fields()
+
+# Enable scheduler (for warranty notifications)
+bench --site [site] enable-scheduler
+
+# Check if everything is working
+bench --site [site] doctor
+
+================================================================================
+❓ TROUBLESHOOTING
+================================================================================
+
+Q: Doctype not showing?
+A: Clear cache and hard refresh (Ctrl+Shift+R)
+
+Q: Custom fields not appearing in Issue/Sales Order?
+A: Run custom_fields.create_equipment_custom_fields() in console
+
+Q: Reports showing no data?
+A: Create at least one Customer Equipment record first
+
+Q: Notifications not working?
+A: Ensure scheduler is enabled (bench enable-scheduler)
+
+================================================================================
+📧 INTEGRATION CHECKLIST
+================================================================================
+
+After installation, verify these integrations:
+
+□ Open Issue doctype → Check "Equipment" field exists
+□ Open Sales Order → Check "Equipment" field exists  
+□ Open Project → Check "Equipment" field exists
+□ Create Customer Equipment record → Should save successfully
+□ Open Equipment by Customer report → Should load
+□ Open Warranty Expiry Report → Should load with chart
+□ Click "View Maintenance History" button → Should open report
+□ Check warranty indicator in dashboard → Should show color
+
+================================================================================
+
+For detailed information, see CUSTOMER_EQUIPMENT_SETUP.txt
+
+================================================================================
+

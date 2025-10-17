@@ -1,0 +1,294 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-10-17 10:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "basic_details_section",
+  "naming_series",
+  "customer",
+  "customer_name",
+  "customer_equipment",
+  "equipment_location",
+  "column_break_1",
+  "service_contract",
+  "scheduled_date",
+  "completion_date",
+  "status",
+  "technician_details_section",
+  "primary_technician",
+  "additional_technicians",
+  "section_break_checklist",
+  "checklist_items",
+  "section_break_materials",
+  "materials_used",
+  "total_material_cost",
+  "time_tracking_section",
+  "time_logs",
+  "total_hours",
+  "timesheet",
+  "photos_section",
+  "photos_before",
+  "column_break_photos",
+  "photos_after",
+  "notes_section",
+  "service_notes",
+  "customer_feedback",
+  "section_break_billing",
+  "is_billable",
+  "sales_invoice"
+ ],
+ "fields": [
+  {
+   "fieldname": "basic_details_section",
+   "fieldtype": "Section Break",
+   "label": "Basic Details"
+  },
+  {
+   "default": "SVC-CALL-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "SVC-CALL-.YYYY.-\nSVC-.####.",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "customer_equipment",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer Equipment",
+   "options": "Customer Equipment",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer_equipment.location",
+   "fieldname": "equipment_location",
+   "fieldtype": "Data",
+   "label": "Equipment Location",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "service_contract",
+   "fieldtype": "Link",
+   "label": "Service Contract",
+   "options": "Contract"
+  },
+  {
+   "fieldname": "scheduled_date",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Scheduled Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "completion_date",
+   "fieldtype": "Datetime",
+   "label": "Completion Date"
+  },
+  {
+   "default": "Open",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Open\nIn Progress\nCompleted\nBilled\nCancelled",
+   "reqd": 1
+  },
+  {
+   "fieldname": "technician_details_section",
+   "fieldtype": "Section Break",
+   "label": "Technician Details"
+  },
+  {
+   "fieldname": "primary_technician",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Primary Technician",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "description": "Enter additional technician names or IDs, comma separated",
+   "fieldname": "additional_technicians",
+   "fieldtype": "Small Text",
+   "label": "Additional Technicians"
+  },
+  {
+   "fieldname": "section_break_checklist",
+   "fieldtype": "Section Break",
+   "label": "Service Checklist"
+  },
+  {
+   "fieldname": "checklist_items",
+   "fieldtype": "Table",
+   "label": "Checklist Items",
+   "options": "Service Call Checklist"
+  },
+  {
+   "fieldname": "section_break_materials",
+   "fieldtype": "Section Break",
+   "label": "Materials Used"
+  },
+  {
+   "fieldname": "materials_used",
+   "fieldtype": "Table",
+   "label": "Materials Used",
+   "options": "Service Call Material"
+  },
+  {
+   "fieldname": "total_material_cost",
+   "fieldtype": "Currency",
+   "label": "Total Material Cost",
+   "read_only": 1
+  },
+  {
+   "fieldname": "time_tracking_section",
+   "fieldtype": "Section Break",
+   "label": "Time Tracking"
+  },
+  {
+   "description": "Track time spent on this service call",
+   "fieldname": "time_logs",
+   "fieldtype": "Long Text",
+   "label": "Time Logs"
+  },
+  {
+   "fieldname": "total_hours",
+   "fieldtype": "Float",
+   "label": "Total Hours",
+   "precision": "2"
+  },
+  {
+   "fieldname": "timesheet",
+   "fieldtype": "Link",
+   "label": "Linked Timesheet",
+   "options": "Timesheet"
+  },
+  {
+   "fieldname": "photos_section",
+   "fieldtype": "Section Break",
+   "label": "Photos"
+  },
+  {
+   "fieldname": "photos_before",
+   "fieldtype": "Attach Image",
+   "label": "Photos Before"
+  },
+  {
+   "fieldname": "column_break_photos",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "photos_after",
+   "fieldtype": "Attach Image",
+   "label": "Photos After"
+  },
+  {
+   "fieldname": "notes_section",
+   "fieldtype": "Section Break",
+   "label": "Notes & Feedback"
+  },
+  {
+   "fieldname": "service_notes",
+   "fieldtype": "Long Text",
+   "label": "Service Notes"
+  },
+  {
+   "fieldname": "customer_feedback",
+   "fieldtype": "Long Text",
+   "label": "Customer Feedback"
+  },
+  {
+   "fieldname": "section_break_billing",
+   "fieldtype": "Section Break",
+   "label": "Billing"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_billable",
+   "fieldtype": "Check",
+   "label": "Is Billable"
+  },
+  {
+   "fieldname": "sales_invoice",
+   "fieldtype": "Link",
+   "label": "Sales Invoice",
+   "options": "Sales Invoice",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-10-17 08:43:31.560993",
+ "modified_by": "Administrator",
+ "module": "Kslsvcs Addons",
+ "name": "Service Call",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Stock Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Stock User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

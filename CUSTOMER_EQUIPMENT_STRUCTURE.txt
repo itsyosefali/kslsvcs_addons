@@ -1,0 +1,348 @@
+================================================================================
+CUSTOMER EQUIPMENT - COMPLETE FILE STRUCTURE
+================================================================================
+
+kslsvcs_addons/
+│
+├── 📄 CUSTOMER_EQUIPMENT_SETUP.txt              ← Detailed setup guide
+├── 📄 CUSTOMER_EQUIPMENT_QUICK_START.txt        ← Quick reference
+├── 📄 CUSTOMER_EQUIPMENT_STRUCTURE.txt          ← This file
+│
+└── kslsvcs_addons/
+    │
+    ├── 📄 hooks.py                               ← UPDATED (scheduler + install hooks)
+    │
+    ├── fixtures/
+    │   ├── 📄 __init__.py
+    │   └── 📄 custom_fields.py                   ← Creates fields in Issue, Sales Order, etc.
+    │
+    └── kslsvcs_addons/
+        │
+        ├── 📁 doctype/
+        │   └── customer_equipment/
+        │       ├── 📄 __init__.py
+        │       ├── 📄 customer_equipment.json            ← DocType definition (15 fields)
+        │       ├── 📄 customer_equipment.py              ← Server logic, validations, API
+        │       ├── 📄 customer_equipment.js              ← Form behavior, buttons
+        │       ├── 📄 customer_equipment_list.js         ← List view customization
+        │       ├── 📄 customer_equipment_dashboard.py    ← Dashboard links
+        │       └── 📄 test_customer_equipment.py         ← Test cases
+        │
+        └── 📁 report/
+            ├── 📄 __init__.py
+            │
+            ├── equipment_by_customer/
+            │   ├── 📄 __init__.py
+            │   ├── 📄 equipment_by_customer.json         ← Report definition
+            │   └── 📄 equipment_by_customer.py           ← Report query & columns
+            │
+            ├── warranty_expiry_report/
+            │   ├── 📄 __init__.py
+            │   ├── 📄 warranty_expiry_report.json        ← Report definition
+            │   └── 📄 warranty_expiry_report.py          ← Report with charts
+            │
+            └── equipment_maintenance_history/
+                ├── 📄 __init__.py
+                ├── 📄 equipment_maintenance_history.json ← Report definition
+                └── 📄 equipment_maintenance_history.py   ← Service history query
+
+================================================================================
+TOTAL FILES: 22 files (3 documentation + 19 code files)
+================================================================================
+
+📊 BREAKDOWN:
+   • DocType: 7 files
+   • Reports: 9 files (3 reports × 3 files each)
+   • Fixtures: 2 files
+   • Documentation: 3 files
+   • Modified: 1 file (hooks.py)
+
+================================================================================
+KEY COMPONENTS OVERVIEW
+================================================================================
+
+🎯 DOCTYPE: Customer Equipment
+   Purpose: Track PBB (Passenger Boarding Bridges) and related assets
+   
+   Fields (15):
+   ✓ Equipment Name (Data, Required, Unique)
+   ✓ Customer (Link, Required)
+   ✓ Location (Data)
+   ✓ Model Number (Data)
+   ✓ Serial Number (Data, Unique)
+   ✓ Status (Select: Active/In Service/Out of Service/Retired)
+   ✓ Installation Date (Date)
+   ✓ Warranty Expiry (Date)
+   ✓ Linked Project (Link)
+   ✓ Linked Contract (Link)
+   ✓ Notes (Long Text)
+   ✓ Attachments (Attach)
+   + System fields (created, modified, owner, etc.)
+
+   Validations:
+   ✓ Warranty date > Installation date
+   ✓ Unique serial numbers
+   ✓ Required fields enforcement
+
+   Server Functions:
+   ✓ get_equipment_maintenance_history(equipment)
+   ✓ get_warranty_expiring_soon(days=30)
+   ✓ send_warranty_expiry_notifications() [Daily scheduler]
+
+   Client Features:
+   ✓ Warranty status indicators (color-coded)
+   ✓ Quick action buttons (Create Issue, View History, Create Sales Order)
+   ✓ Real-time date validation
+   ✓ Auto-fetch customer details
+
+📊 REPORTS (3)
+
+   1. Equipment by Customer
+      Purpose: List all equipment grouped by customer
+      Features:
+      - Filter by customer, status
+      - Shows: Name, Location, Model, Serial, Dates
+      - Exportable to Excel/PDF
+      
+   2. Warranty Expiry Report
+      Purpose: Track warranties expiring soon
+      Features:
+      - Default: Next 90 days
+      - Configurable date range
+      - Bar chart visualization
+      - Days remaining calculation
+      - Only shows Active/In Service equipment
+      
+   3. Equipment Maintenance History
+      Purpose: Service history per equipment
+      Features:
+      - Shows all linked Issues/Work Orders
+      - Filter by equipment or customer
+      - Displays: Issue, Subject, Status, Priority, Dates
+      - Complete audit trail
+
+🔗 INTEGRATIONS
+
+   Custom Fields Added To:
+   ✓ Issue (Service tracking)
+   ✓ Sales Order (Sales linkage)
+   ✓ Project (Project management)
+   ✓ Sales Invoice (Billing linkage)
+   ✓ Delivery Note (Installation tracking)
+
+   All fields named "equipment" (Link to Customer Equipment)
+
+⚡ AUTOMATION
+
+   Scheduled Tasks (Daily):
+   ✓ Check warranties expiring in next 30 days
+   ✓ Send notifications to equipment owners
+   ✓ Only for Active/In Service equipment
+
+   Hooks Configuration:
+   ✓ after_install: Creates custom fields automatically
+   ✓ scheduler_events: Runs daily warranty check
+
+================================================================================
+INSTALLATION WORKFLOW
+================================================================================
+
+STEP 1: Ensure Services Running
+   $ bench start
+   
+STEP 2: Run Migration
+   $ bench --site [your-site] migrate
+   
+   What happens:
+   ✓ Creates tabCustomer Equipment table
+   ✓ Installs 3 reports
+   ✓ Runs after_install hook
+   ✓ Creates custom fields in other doctypes
+   ✓ Sets up permissions
+
+STEP 3: Clear Cache
+   $ bench --site [your-site] clear-cache
+   
+   What happens:
+   ✓ Clears DocType cache
+   ✓ Reloads JavaScript files
+   ✓ Refreshes form definitions
+
+STEP 4: Verify (Optional)
+   Navigate to:
+   - Home > Kslsvcs Addons > Customer Equipment
+   - Check if doctype opens
+   - Create a test equipment record
+   - Check custom fields in Issue doctype
+
+================================================================================
+USAGE FLOW DIAGRAM
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────┐
+│                     CREATE EQUIPMENT                             │
+│                                                                  │
+│  Home > Kslsvcs Addons > Customer Equipment > New               │
+│  → Fill details (Name, Customer, Location, Dates, Serial)       │
+│  → Save                                                          │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                     TRACK SERVICE                                │
+│                                                                  │
+│  Open Equipment → Click "Create Issue"                          │
+│  → Issue auto-linked to equipment                               │
+│  → OR: Create Issue manually, select equipment                  │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                     VIEW HISTORY                                 │
+│                                                                  │
+│  Open Equipment → Click "View Maintenance History"              │
+│  → Report shows all Issues linked to this equipment             │
+│  → Complete service audit trail                                 │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                     MONITOR WARRANTY                             │
+│                                                                  │
+│  • Dashboard shows color indicator (Green/Orange/Red)           │
+│  • Reports > Warranty Expiry Report → See all expiring          │
+│  • Daily notifications for 30-day warnings                      │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                     LINK TO PROJECTS                             │
+│                                                                  │
+│  Create Sales Order / Project                                   │
+│  → Select Customer → Select Equipment                           │
+│  → Auto-linked for tracking across lifecycle                    │
+└─────────────────────────────────────────────────────────────────┘
+
+================================================================================
+API REFERENCE
+================================================================================
+
+Python API (Server-side):
+
+1. Get Maintenance History
+   ```python
+   import frappe
+   history = frappe.call(
+       'kslsvcs_addons.kslsvcs_addons.doctype.customer_equipment.customer_equipment.get_equipment_maintenance_history',
+       equipment='EQUIPMENT-0001'
+   )
+   ```
+
+2. Get Warranty Expiring Soon
+   ```python
+   import frappe
+   expiring = frappe.call(
+       'kslsvcs_addons.kslsvcs_addons.doctype.customer_equipment.customer_equipment.get_warranty_expiring_soon',
+       days=30
+   )
+   ```
+
+3. Manual Notification Trigger
+   ```python
+   from kslsvcs_addons.kslsvcs_addons.doctype.customer_equipment.customer_equipment import send_warranty_expiry_notifications
+   send_warranty_expiry_notifications()
+   ```
+
+4. Create Custom Fields
+   ```python
+   from kslsvcs_addons.fixtures.custom_fields import create_equipment_custom_fields
+   create_equipment_custom_fields()
+   ```
+
+JavaScript API (Client-side):
+
+1. Create Issue from Equipment
+   ```javascript
+   frappe.new_doc('Issue', {
+       customer: frm.doc.customer,
+       equipment: frm.doc.name
+   });
+   ```
+
+2. Open Maintenance History Report
+   ```javascript
+   frappe.set_route('query-report', 'Equipment Maintenance History', {
+       equipment: frm.doc.name
+   });
+   ```
+
+================================================================================
+TESTING CHECKLIST
+================================================================================
+
+□ Create Customer Equipment record
+  ✓ All fields save correctly
+  ✓ Serial number uniqueness enforced
+  ✓ Warranty date validation works
+
+□ Custom Fields Present
+  ✓ Issue has "Equipment" field
+  ✓ Sales Order has "Equipment" field
+  ✓ Project has "Equipment" field
+
+□ Reports Working
+  ✓ Equipment by Customer shows data
+  ✓ Warranty Expiry Report shows data + chart
+  ✓ Maintenance History shows data
+
+□ Client Features
+  ✓ Warranty indicator shows correct color
+  ✓ "Create Issue" button works
+  ✓ "View Maintenance History" button works
+  ✓ Date validation works
+
+□ Automation
+  ✓ Scheduler enabled
+  ✓ Warranty notifications send
+
+================================================================================
+PERMISSION MATRIX
+================================================================================
+
+Role              Create  Read  Write  Delete  Export  Report  Share
+─────────────────────────────────────────────────────────────────────
+System Manager      ✓      ✓     ✓       ✓       ✓       ✓      ✓
+Stock Manager       ✓      ✓     ✓       ✓       ✓       ✓      ✓
+Stock User          ✗      ✓     ✗       ✗       ✓       ✓      ✓
+
+================================================================================
+MAINTENANCE & SUPPORT
+================================================================================
+
+Adding New Features:
+1. Edit JSON for fields: customer_equipment.json
+2. Add logic in: customer_equipment.py
+3. Add UI behavior: customer_equipment.js
+4. Run: bench --site [site] migrate
+
+Creating New Reports:
+1. Create folder in: report/
+2. Add .json and .py files
+3. Run: bench --site [site] migrate
+
+Modifying Custom Fields:
+1. Edit: fixtures/custom_fields.py
+2. Run in console:
+   >>> from kslsvcs_addons.fixtures.custom_fields import create_equipment_custom_fields
+   >>> create_equipment_custom_fields()
+
+================================================================================
+CHANGELOG
+================================================================================
+
+Version 1.0 - October 15, 2025
+- Initial release
+- Customer Equipment DocType created
+- 3 reports added
+- Custom field integrations
+- Automated warranty notifications
+- Dashboard and list view customizations
+
+================================================================================
+
